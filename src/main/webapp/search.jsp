@@ -33,7 +33,7 @@
             <th>Price</th>
             <th>Color</th>
         </tr>
-        <c:forEach var="listByName" items="${product}">
+        <c:forEach var="product" items="${listByName}">
             <tr>
                 <td><c:out value="${product.getId()}"/></td>
                 <td><c:out value="${product.getName()}"/></td>
