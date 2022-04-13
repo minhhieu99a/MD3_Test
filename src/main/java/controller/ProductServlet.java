@@ -31,6 +31,8 @@ public class ProductServlet extends HttpServlet {
             case "search":
                 showFormFindByName(request,response);
                 break;
+            case "delete":
+                deleteProduct(request,response);
             default:
                 showAllProducts(request, response);
                 break;
@@ -89,6 +91,15 @@ public class ProductServlet extends HttpServlet {
         List<Products> products = productDAO.findByName(name);
         request.setAttribute("listByName",products);
         RequestDispatcher dispatcher=request.getRequestDispatcher("search.jsp");
+        dispatcher.forward(request,response);
+    }
+
+    private void deleteProduct (HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
+        int id =Integer.parseInt(request.getParameter("id"));
+        productDAO.deleteProduct(id);
+        List<Products>products=productDAO.selectAllUsers();
+        request.setAttribute("listProducts",products);
+        RequestDispatcher dispatcher =request.getRequestDispatcher("list.jsp");
         dispatcher.forward(request,response);
     }
 }

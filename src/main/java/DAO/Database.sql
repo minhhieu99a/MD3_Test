@@ -19,7 +19,7 @@ CREATE TABLE Product
     color       nvarchar(255),
     describtion nvarchar(5000),
     idC         int,
-    FOREIGN KEY (idC) references Category (Id)
+    CONSTRAINT idC FOREIGN KEY (idC) references Category (Id)
 );
 INSERT INTO Product(name, price, quantity, color, describtion, idC)
 VALUES ('Ip5s', 2000000, 50, 'đen', ' Ai Phôn đen 5s', 1),
@@ -38,5 +38,15 @@ SELECT P.Id          as 'Id',
        C.name        as 'nameCategory'
 FROM Product P
          join Category C on C.Id = P.idC;
-SELECT * FROM Product where name =?;
+SELECT *
+FROM Product
+where name = ?;
 # DROP DATABASE Products;
+Delimiter $$
+CREATE PROCEDURE DeleteProduct(In idP INT)
+BEGIN
+    alter TABLE Product
+        DROP CONSTRAINT idC;
+    delete from product where Id = idP;
+    alter TABLE Product ADD CONSTRAINT idC FOREIGN KEY (idC)references Category(Id);
+end $$
